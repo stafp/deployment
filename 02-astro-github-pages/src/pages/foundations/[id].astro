@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from "astro:content";
+import Markdown from "../../layouts/Markdown.astro";
+
+export async function getStaticPaths() {
+  const foundationEntries = await getCollection("foundations");
+  return foundationEntries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Markdown>
+  <a href="/#foundations">Foundations</a>
+  <h2><span>{entry.data.title}</span></h2>
+  <Content />
+</Markdown>
+
+<style>
+  a {
+    display: block;
+    margin-bottom: var(--sp-m);
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { any } from "astro:schema";
+import { render } from "astro:content";
+
+const allNews = await getCollection("news");
+allNews.sort((a, b) => b.data.date - a.data.date);
+---
+
+<Base title="News">
+  <div class="container">
+    <h2><span>News</span></h2>
+    <p class="code">The third digit of the code is 3</p>
+    <ul>
+      {
+        allNews.map(async (news) => {
+          const { Content } = await render(news);
+          return (
+            <li>
+              <article>
+                <h3>{news.data.title}</h3>
+                <time datetime={news.data.date.toISOString()}>
+                  {news.data.date.toDateString()}
+                </time>
+                <div class="md">
+                  <Content />
+                </div>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  ul > li:not(:last-child) {
+    border-bottom: solid grey 1px;
+    padding-bottom: var(--sp-l);
+    margin-bottom: var(--sp-xl);
+  }
+
+  h3 {
+    margin-bottom: var(--sp-2xs);
+  }
+
+  time {
+    display: block;
+    margin-bottom: var(--sp-l);
+  }
+
+  .code {
+    font-family: monospace;
+    color: var(--color-background);
+    padding: var(--sp-xs) var(--sp-s);
+    text-decoration: wavy underline var(--color-primary);
+  }
+</style>

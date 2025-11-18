@@ -1,0 +1,29 @@
+---
+import Foundations from "../components/Foundations.astro";
+import Hero from "../components/Hero.astro";
+import Team from "../components/Team.astro";
+import Workshops from "../components/Workshops.astro";
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Home Page">
+  <Hero />
+  <Workshops />
+  <Foundations />
+  <Team />
+</Base>
+
+<script>
+  const statusMsg = (title, msg) => {
+    console.log(
+      `\n%c⚠️ ${title} ⚠️%c${msg}`,
+      "color:green; background: black; font-size:1.5rem; padding:0.15rem; margin: 1rem auto; font-family: Rockwell, Tahoma, 'Trebuchet MS', Helvetica; border: 2px solid #ceb73f; border-radius: 4px; font-weight: bold; text-shadow: 1px 1px 1px #000000bf;",
+      "font-size: 1rem;color: green; background: black; padding: .5em; font-family: Consolas, Courier, monospace;"
+    );
+  };
+
+  statusMsg(
+    "Code found!",
+    "Goood job finding this secret message. The second digit of the code is 2."
+  );
+</script>

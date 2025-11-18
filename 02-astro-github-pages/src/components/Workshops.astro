@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import WorkshopCard from "./WorkshopCard.astro";
+
+const allWorkshops = await getCollection("workshops");
+const themes = ["grey", "green", "black"];
+---
+
+<section class="container" id="workshops">
+  <header>
+    <h2><span>Workshops</span></h2>
+    <p>
+      These workshops offer hands-on introductions to creative technologies,
+      empowering artists, designers, and musicians to explore digital tools as
+      expressive, interactive mediums.
+    </p>
+  </header>
+  <ul>
+    {
+      allWorkshops.map((workshop, i) => (
+        <li>
+          <WorkshopCard workshop={workshop} theme={themes[i % 3]} />
+        </li>
+      ))
+    }
+    <li class="hiddenCodeCard">
+      <WorkshopCard
+        workshop={{
+          data: {
+            title: "Last digit of the code is 4",
+            image: allWorkshops[0].data.image,
+          },
+        }}
+      />
+    </li>
+  </ul>
+</section>
+
+<script>
+  const $hiddenCodeCard = document.querySelector(".hiddenCodeCard");
+  const $title = document.querySelector("#workshops h2 span");
+
+  $title.addEventListener("click", () => {
+    $hiddenCodeCard.style.display = "block";
+    $hiddenCodeCard.scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+
+<style>
+  header h2 {
+    cursor: pointer;
+  }
+
+  ul {
+    display: flex;
+    flex-flow: column;
+    gap: var(--sp-m);
+  }
+
+  .hiddenCodeCard {
+    display: none;
+  }
+</style>
